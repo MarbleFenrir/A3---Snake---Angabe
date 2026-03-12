@@ -2,7 +2,7 @@
 internal class Leaderboard
 {
     private static string path = @"./highscore.txt";
-    public Score[] scores;
+    public Score[] scores = new Score[10];
     public Leaderboard()
     {
         if (!File.Exists(path))
@@ -12,9 +12,26 @@ internal class Leaderboard
         {
             while (!sr.EndOfStream)
             {
+                scores[scoreCount] = Score.Parse(sr.ReadLine());
                 scoreCount++;
-
             }
         }
+        for (int i = 0; i < scores.Length - scoreCount; i++)
+            scores[i] = new Score();
+    }
+    public void Add()
+    {
+        ///
+        /// TODO: Implement operations for easier use with "public static bool operator"
+        /// 
+    }
+    public override string ToString()
+    {
+        string retval = "";
+        for (int i = 0;i < scores.Length;i++)
+        {
+            retval += scores[i].ToString() + '\n';
+        }
+        return retval;
     }
 }
