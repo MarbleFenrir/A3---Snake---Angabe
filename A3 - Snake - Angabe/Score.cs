@@ -50,5 +50,13 @@ namespace A3___Snake___Angabe
             }
             else return new();
         }
+        public static bool operator >(Score left, Score right) 
+        {
+            return left.Points > right.Points;
+        }
+        public static bool operator <(Score left, Score right)
+        {
+            return left.Points < right.Points;
+        }
     }
 }
