@@ -1,36 +1,32 @@
-﻿namespace A3___Snake___Angabe
+﻿namespace A3___Snake___Angabe;
+
+internal class Program
 {
-    internal class Program
+    public static int seed = 0;
+    static int Main(string[] args)
     {
-        static void Main()
+        #region Args
+        if (args.Length <= 2)
         {
-            int spalte = 0;
-            int zeile = 0;
-            
-            while(true)
+            for (int i = 0; i < args.Length; i++)
             {
-                ConsoleKeyInfo key = Console.ReadKey(intercept: true);
-                switch (key.Key)
+                if (args[i] == "-s" || args[i] == "--seed")
                 {
-                    case ConsoleKey.RightArrow:
-                        spalte++;
-                        Console.SetCursorPosition(spalte, zeile);
+                    Console.WriteLine("Found seed flag");
+                    if (int.TryParse(args[i + 1], out seed))
+                    {
                         break;
-                    case ConsoleKey.LeftArrow:
-                        spalte--;
-                        Console.SetCursorPosition(spalte, zeile);
-                        break;
-                    case ConsoleKey.UpArrow:
-                        zeile--;
-                        Console.SetCursorPosition(spalte, zeile);
-                        break;
-                    case ConsoleKey.DownArrow:
-                        zeile++;
-                        Console.SetCursorPosition(spalte, zeile);
-                        break;
+                    }
+                    else
+                    {
+                        Console.Error.WriteLine("Not a valid seed.");
+                        Environment.Exit(1);
+                    }
                 }
             }
-            
         }
+        #endregion Args
+
+        return 0;
     }
 }
