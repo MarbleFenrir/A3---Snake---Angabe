@@ -29,10 +29,10 @@ public class OnScreenKeyboard
         get { return buffer; }
     }
     private string buffer = "";
-/// <summary>
-/// Starts the OnScreenKeyboard. Returns a non-nullable string of the Users input.<br/><br/>Note that this also clears the screen.
-/// </summary>
-/// <returns></returns>
+    /// <summary>
+    /// Starts the OnScreenKeyboard. Returns a non-nullable string of the Users input.<br/><br/>Note that this also clears the screen.
+    /// </summary>
+    /// <returns></returns>
     public string Run(string title = "Input: ")
     {
         ConsoleKeyInfo key;
@@ -88,7 +88,6 @@ public class OnScreenKeyboard
         Console.Clear();
         return buffer;
     }
-
     public string RunAsync(string title = "Input: ")
     {
         ConsoleKeyInfo key;

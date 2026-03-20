@@ -13,7 +13,7 @@ internal class Program
                 if (args[i] == "-s" || args[i] == "--seed")
                 {
                     Console.WriteLine("Found seed flag");
-                    if (int.TryParse(args[i + 1], out seed))
+                    if (int.TryParse(args[++i], out seed))
                     {
                         break;
                     }
