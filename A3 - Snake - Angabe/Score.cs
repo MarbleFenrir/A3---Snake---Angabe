@@ -58,7 +58,7 @@ internal class Score
         return $"---;------------;--.--.---- --:--:--";
     }
     /// <summary>
-    /// Parses a span of UTF-8 characters into a value.<br/><br/>Accepted Format: points;dd.MM.yyyy HH:mm:ss
+    /// Parses a span of UTF-8 characters into a value.<br/><br/>Accepted Format: points;name;dd.MM.yyyy HH:mm:ss
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
@@ -68,7 +68,7 @@ internal class Score
         {
             string[] splitS = s.Split(';');
             byte points = byte.Parse(splitS[0]);
-            Score score = new Score(splitS[1], DateTime.ParseExact(splitS[1], format: "dd.MM.yyyy HH:mm:ss", CultureInfo.GetCultureInfo("de-AT")), points);
+            Score score = new Score(splitS[1], DateTime.ParseExact(splitS[2], format: "dd.MM.yyyy HH:mm:ss", CultureInfo.GetCultureInfo("de-AT")), points);
             return score;
         }
         else return new();
