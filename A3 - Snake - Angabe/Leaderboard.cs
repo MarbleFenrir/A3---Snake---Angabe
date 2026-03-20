@@ -1,26 +1,28 @@
-﻿namespace A3___Snake___Angabe;
+namespace A3___Snake___Angabe;
 internal class Leaderboard
 {
     private static string PATH = @"./highscore.txt";
     public Score[] scores = new Score[10];
     public Leaderboard()
     {
-        if (!File.Exists(PATH))
-            File.Create(PATH).Dispose();
-        int scoreCount = 0;
-        using (StreamReader sr = new(PATH))
-        {
-            while (!sr.EndOfStream)
-            {
-                string? line = sr.ReadLine();
-                if (line is null)
-                    break;
-                scores[scoreCount] = Score.Parse(line);
-                scoreCount++;
-            }
-        }
-        for (int i = 0; i < scores.Length - scoreCount; i++)
-            scores[i] = new Score();
+	    if (!File.Exists(PATH))
+    File.Create(PATH).Dispose();
+
+int scoreCount = 0;
+using (StreamReader sr = new(PATH))
+{
+    while (!sr.EndOfStream)
+    {
+        string? line = sr.ReadLine();
+        if (line is null)
+            break;
+        scores[scoreCount] = Score.Parse(line);
+        scoreCount++;
+    }
+}
+
+for (int i = scoreCount; i < scores.Length; i++)
+    scores[i] = new Score();
     }
     /// <summary>
     /// Adds a score to the appropriate place in the leaderboard
@@ -31,7 +33,7 @@ internal class Leaderboard
         for (int i = 0; i < scores.Length; i++)
         {
             // If current slot is empty OR new score is higher
-            if (scores[i] == null || s > scores[i])
+            if (scores[i] == null || scores[i].Points == 0 || s > scores[i])
             {
                 // Shift everything down
                 for (int j = scores.Length - 1; j > i; j--)
