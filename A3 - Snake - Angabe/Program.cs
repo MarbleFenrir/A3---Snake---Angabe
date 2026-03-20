@@ -2,7 +2,7 @@
 
 internal class Program
 {
-    public static int seed = (int)(DateTime.Now.Ticks % (long)int.MaxValue);
+    public static int seed = (int)(DateTime.Now.Ticks % int.MaxValue);
     static int Main(string[] args)
     {
         #region Args

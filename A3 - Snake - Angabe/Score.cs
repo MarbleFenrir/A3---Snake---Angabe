@@ -13,7 +13,7 @@ internal class Score
     public string Name
     {
         get { return name; }
-        set { name = value; }
+        init { name = value; }
     }
 
     private DateTime _date;
@@ -31,9 +31,9 @@ internal class Score
     /// </summary>
     /// <param name="points"></param>
     public Score(ushort points = 0) : this("", points) { }
-    public Score(string name, ushort points = 0) : this(name, DateTime.Now, points) { }
-    public Score(DateTime date, ushort points = 0) : this("", date, points) { }
-    public Score (string name, DateTime date, ushort points = 0)
+    public Score(string name, ushort points) : this(name, DateTime.Now, points) { }
+    public Score(DateTime date, ushort points) : this("", date, points) { }
+    public Score (string name, DateTime date, ushort points)
     {
         Name = name;
         Points=points;
@@ -50,7 +50,7 @@ internal class Score
         if (Points !=0)
         {
             if (name == default)
-                return $"{Points:d3};{_date.ToString("dd.MM.yyyy HH:mm:ss")}";
+                return $"{Points:d3};{new string('-', 15)};{_date.ToString("dd.MM.yyyy HH:mm:ss")}";
             else
                 return $"{Points:d3};{Name:d12};{_date.ToString("dd.MM.yyyy HH:mm:ss")}";
 
@@ -68,8 +68,7 @@ internal class Score
         {
             string[] splitS = s.Split(';');
             byte points = byte.Parse(splitS[0]);
-            Score score = new Score(points);
-            score._date = DateTime.ParseExact(splitS[1], format: "dd.MM.yyyy HH:mm:ss", CultureInfo.GetCultureInfo("de-AT"));
+            Score score = new Score(splitS[1], DateTime.ParseExact(splitS[1], format: "dd.MM.yyyy HH:mm:ss", CultureInfo.GetCultureInfo("de-AT")), points);
             return score;
         }
         else return new();
