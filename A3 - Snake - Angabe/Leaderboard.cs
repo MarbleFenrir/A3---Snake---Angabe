@@ -6,18 +6,29 @@ internal class Leaderboard
     public Leaderboard()
     {
         if (!File.Exists(path))
-            File.Create(path).Dispose();
-        int scoreCount = 0;
-        using (StreamReader sr = new(path))
         {
-            while (!sr.EndOfStream)
+            using (StreamWriter sw = new StreamWriter(path)) { }
+        }
+
+        int scoreCount = 0;
+
+        using (StreamReader sr = new StreamReader(path))
+        {
+            while (!sr.EndOfStream && scoreCount < scores.Length)
             {
-                scores[scoreCount] = Score.Parse(sr.ReadLine());
-                scoreCount++;
+                string line = sr.ReadLine();
+                if (line != null && line != "") 
+                {
+                    scores[scoreCount] = Score.Parse(line);
+                    scoreCount++;
+                }
             }
         }
-        for (int i = 0; i < scores.Length - scoreCount; i++)
+
+        for (int i = scoreCount; i < scores.Length; i++)
+        {
             scores[i] = new Score();
+        }
     }
     /// <summary>
     /// Adds a score to the appropriate place in the leaderboard
@@ -25,32 +36,37 @@ internal class Leaderboard
     /// <param name="s"></param>
     public void Add(Score s)
     {
-        Score b = new();
-        Score c = new();
-        bool move = false;
-        for (int i = scores.Length - 1; i > 0;i--)
+        scores[scores.Length - 1] = s;
+
+        for (int i = 0; i < scores.Length - 1; i++)
         {
-            if (s > scores[i])
+            for (int j = 0; j < scores.Length - 1 - i; j++)
             {
-                if (!move)
+                if (scores[j].Points < scores[j + 1].Points)
                 {
-                    b = scores[i];
-                    scores[i] = s;
+                    Score temp = scores[j];
+                    scores[j] = scores[j + 1];
+                    scores[j + 1] = temp;
                 }
-                else
-                {
-                    c = scores[i];
-                    scores[i] = b;
-                    b = c;
-                }
-                move = true;
+            }
+        }
+
+        Save();
+    }
+    private void Save()
+    {
+        using (StreamWriter sw = new StreamWriter(path))
+        {
+            for (int i = 0; i < scores.Length; i++)
+            {
+                sw.WriteLine(scores[i].ToString());
             }
         }
     }
     public override string ToString()
     {
         string retval = "";
-        for (int i = 0;i < scores.Length;i++)
+        for (int i = 0;i < scores.Length - 1;i++)
         {
             retval += scores[i].ToString() + '\n';
         }

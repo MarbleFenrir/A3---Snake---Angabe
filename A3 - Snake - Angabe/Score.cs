@@ -52,7 +52,7 @@ internal class Score
             if (name == default)
                 return $"{Points:d3};{new string('-', 15)};{_date.ToString("dd.MM.yyyy HH:mm:ss")}";
             else
-                return $"{Points:d3};{Name:d12};{_date.ToString("dd.MM.yyyy HH:mm:ss")}";
+                return $"{Points};{Name};{_date.ToString("dd.MM.yyyy HH:mm:ss")}";
 
         }
         return $"---;------------;--.--.---- --:--:--";
@@ -67,8 +67,8 @@ internal class Score
         if (s.IndexOf('-') == -1)
         {
             string[] splitS = s.Split(';');
-            byte points = byte.Parse(splitS[0]);
-            Score score = new Score(splitS[1], DateTime.ParseExact(splitS[1], format: "dd.MM.yyyy HH:mm:ss", CultureInfo.GetCultureInfo("de-AT")), points);
+            ushort points = ushort.Parse(splitS[0]);
+            Score score = new Score(splitS[1], DateTime.ParseExact(splitS[2], format: "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture), points);
             return score;
         }
         else return new();
