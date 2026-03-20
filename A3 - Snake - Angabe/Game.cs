@@ -1,4 +1,6 @@
-﻿using static A3___Snake___Angabe.Directions;
+﻿using System.ComponentModel.Design;
+using System.Reflection.Emit;
+using static A3___Snake___Angabe.Directions;
 
 namespace A3___Snake___Angabe
 {
@@ -24,6 +26,7 @@ namespace A3___Snake___Angabe
         private int length = 3;
         private Random rand;
         private Directions direction = up;
+        private Leaderboard lb = new();
 
         ushort score = 0;//score implementieren 
 
@@ -38,16 +41,46 @@ namespace A3___Snake___Angabe
         public void Start()
         {
             Console.CursorVisible = false;
-            Leaderboard lb = new();
+            DrawTitle();
+        }
+        private void DrawTitle()
+        {
+            do
+            {
+                int sel = StartMenu.Show();
+                switch (sel)
+                {
+                    case 0:
+                        InitGame();
+                        break;
+                    case 1:
+                        Console.Clear();
+                        Console.WriteLine($"{lb}\nPress any Key to return");
+                        Console.ReadKey();
+                        break;
+                    case 2:
+                        return;
+
+                }
+            } while (true);
+        }
+        internal static void WriteCenteredText(string s, int line)
+        {
+            int x = (Console.WindowWidth - s.Length) / 2;
+            Console.SetCursorPosition(x, line);
+            Console.WriteLine(s);
+        }
+        internal void InitGame()
+        {
             OnScreenKeyboard kb = new();
+            Console.Clear();
             InitSnake();
             Draw();
             GenerateFood();
 
             GameLoop();
-            lb.Add(new(kb.Run("Please enter your name: "),score));
+            lb.Add(new(kb.Run("Please enter your name: "), score));
             Console.WriteLine(lb);
-
         }
         /// <summary>
         /// Initializes the snake 
