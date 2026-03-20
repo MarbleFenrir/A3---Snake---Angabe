@@ -1,4 +1,4 @@
-﻿namespace A3___Snake___Angabe;
+namespace A3___Snake___Angabe;
 
 internal class Program
 {
