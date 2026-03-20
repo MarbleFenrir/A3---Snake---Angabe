@@ -46,9 +46,6 @@ internal class Leaderboard
                 move = true;
             }
         }
-
-
-
     }
     public override string ToString()
     {
