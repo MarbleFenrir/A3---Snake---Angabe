@@ -1,4 +1,4 @@
-﻿using System.Globalization;
+using System.Globalization;
 
 namespace A3___Snake___Angabe;
 
@@ -52,7 +52,7 @@ internal class Score
             if (name == default)
                 return $"{Points:d3};{new string('-', 15)};{_date.ToString("dd.MM.yyyy HH:mm:ss")}";
             else
-                return $"{Points};{Name};{_date.ToString("dd.MM.yyyy HH:mm:ss")}";
+                return $"{Points:d3};{Name:d12};{_date.ToString("dd.MM.yyyy HH:mm:ss")}";
 
         }
         return $"---;------------;--.--.---- --:--:--";
