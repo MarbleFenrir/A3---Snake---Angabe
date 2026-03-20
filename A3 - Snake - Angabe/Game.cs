@@ -119,7 +119,7 @@
                 Console.Beep(); //Wollen wir ein bestimmtes Beep ton?
                 score++;              //score++; fehlt
                 GrowSnake();
-                GenerateFood();
+                GenerateFood(); 
             }
         }
         /// <summary>
