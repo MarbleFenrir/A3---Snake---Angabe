@@ -1,4 +1,6 @@
-﻿namespace A3___Snake___Angabe
+﻿using static A3___Snake___Angabe.Directions;
+
+namespace A3___Snake___Angabe
 {
     internal enum Directions {
         up = 0,
@@ -9,45 +11,48 @@
 
     internal class Game
     {
-        
+        public Game(int seed)
+        {
+            rand = new(seed);
+
+        }
         const int WIDTH = 40;
         const int HEIGHT = 20;
 
-        int[] snakeX = new int[3];
-        int[] snakeY = new int[3];
-        int length = 3;
+        private int[] snakeX = new int[3];
+        private int[] snakeY = new int[3];
+        private int length = 3;
+        private Random rand;
+        private Directions direction = up;
 
-        Directions direction = up;
+        ushort score = 0;//score implementieren 
 
-        int score = 0;//score implementieren 
+        private int foodX;
+        private int foodY;
 
-        int foodX;
-        int foodY;
+        private bool gameOver;
 
-        bool gameOver;
-
-        Random rand = new Random();
         /// <summary>
         /// Starts the game
         /// </summary>
         public void Start()
         {
             Console.CursorVisible = false;
-
-            //highscore fehlt
-
+            Leaderboard lb = new();
+            OnScreenKeyboard kb = new();
             InitSnake();
+            Draw();
             GenerateFood();
 
             GameLoop();
-
-            //Endgame fehlt
+            lb.Add(new(kb.Run("Please enter your name: "),score));
+            Console.WriteLine(lb);
 
         }
         /// <summary>
         /// Initializes the snake 
         /// </summary>
-        void InitSnake()
+        private void InitSnake()
         {
             int startX = WIDTH / 2;
             int startY = HEIGHT / 4;
@@ -58,9 +63,10 @@
                 snakeY[i] = startY;
             }
         }
-        void GameLoop()
+        private void GameLoop()
         {
-            do {
+            do
+            {
                 Input();
                 MoveSnake();
                 gameOver = CheckCollision();
@@ -68,13 +74,13 @@
                 Draw();
 
                 Thread.Sleep(120);
-            } while (!gameOver)
+            } while (!gameOver);
         }
         /// <summary>
         /// Keyboard Input for arrows.
         /// If up then you can't move down
         /// </summary>
-        void Input()
+        private void Input()
         {
             if (Console.KeyAvailable)
             {
@@ -85,7 +91,7 @@
                 if (key == ConsoleKey.LeftArrow && direction != right) direction = left;
             }
         }
-        void MoveSnake()
+        private void MoveSnake()
         {
             for (int i = length - 1; i > 0; i--)
             {
@@ -114,6 +120,7 @@
                     return true;
                 }
             }
+            return false;
         }
         /// <summary>
         /// If the head of the snake eats the food it makes a sound
@@ -156,20 +163,23 @@
         void GenerateFood()
         {
             bool valid;
+            int tempX, tempY;
             do
             {
                 valid = true;
-                foodX = rand.Next(1, WIDTH - 1);
-                foodY = rand.Next(1, HEIGHT - 1);
+                tempX = rand.Next(1, WIDTH - 1);
+                tempY = rand.Next(1, HEIGHT - 1);
 
                 for (int i = 0; i < length; i++)
                 {
-                    if (snakeX[i] == foodX || snakeY[i] == foodY)
+                    if (snakeX[i] == tempX || snakeY[i] == tempY)
                     {
                         valid = false;
                     }
                 }
             } while (!valid);
+            foodX = tempX;
+            foodY = tempY;
         }
         /// <summary>
         /// Draws the map

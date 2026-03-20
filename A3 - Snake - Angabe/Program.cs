@@ -12,7 +12,6 @@ internal class Program
             {
                 if (args[i] == "-s" || args[i] == "--seed")
                 {
-                    Console.WriteLine("Found seed flag");
                     if (int.TryParse(args[++i], out seed))
                     {
                         break;
@@ -26,7 +25,8 @@ internal class Program
             }
         }
         #endregion Args
-
+        Game game = new(seed);
+        game.Start();
         return 0;
     }
 }
