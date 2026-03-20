@@ -2,7 +2,7 @@
 
 internal class Program
 {
-    public static int seed = 0;
+    public static int seed = (int)(DateTime.Now.Ticks % (long)int.MaxValue);
     static int Main(string[] args)
     {
         #region Args
@@ -26,7 +26,10 @@ internal class Program
         }
         #endregion Args
         Game game = new(seed);
-        game.Start();
+        while (game.Start()) 
+        {
+            game = new((int)Math.Floor(seed + Math.Atan(game.score)));
+        }
         return 0;
     }
 }

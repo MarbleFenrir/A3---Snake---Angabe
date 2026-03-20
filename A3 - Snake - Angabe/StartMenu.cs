@@ -10,6 +10,17 @@ internal class StartMenu
         "Leaderboard",
         "Quit"
     };
+    private static readonly string[] title =
+    {
+        @"  /$$$$$$  /$$   /$$  /$$$$$$  /$$   /$$ /$$$$$$$$",
+        @" /$$__  $$| $$$ | $$ /$$__  $$| $$  /$$/| $$_____/",
+        @"| $$  \__/| $$$$| $$| $$  \ $$| $$ /$$/ | $$      ",
+        @"|  $$$$$$ | $$ $$ $$| $$$$$$$$| $$$$$/  | $$$$$   ",
+        @" \____  $$| $$  $$$$| $$__  $$| $$  $$  | $$__/   ",
+        @" /$$  \ $$| $$\  $$$| $$  | $$| $$\  $$ | $$      ",
+        @"|  $$$$$$/| $$ \  $$| $$  | $$| $$ \  $$| $$$$$$$$",
+        @" \______/ |__/  \__/|__/  |__/|__/  \__/|________/"
+    };
 
     public static int Show()
     {
@@ -45,17 +56,10 @@ internal class StartMenu
         Console.Clear();
         Console.CursorVisible = false;
         if (Console.WindowHeight > 15)
-            Console.WriteLine(@"  /$$$$$$  /$$   /$$  /$$$$$$  /$$   /$$ /$$$$$$$$
- /$$__  $$| $$$ | $$ /$$__  $$| $$  /$$/| $$_____/
-| $$  \__/| $$$$| $$| $$  \ $$| $$ /$$/ | $$      
-|  $$$$$$ | $$ $$ $$| $$$$$$$$| $$$$$/  | $$$$$   
- \____  $$| $$  $$$$| $$__  $$| $$  $$  | $$__/   
- /$$  \ $$| $$\  $$$| $$  | $$| $$\  $$ | $$      
-|  $$$$$$/| $$ \  $$| $$  | $$| $$ \  $$| $$$$$$$$
- \______/ |__/  \__/|__/  |__/|__/  \__/|________/
-                                                  
-                                                  
-                                                  ");
+        {
+            for (int i = 0; i < title.Length; i++)
+                Game.WriteCenteredText(title[i], i + Console.WindowHeight / 7);
+        }
 
         int windowWidth = Console.WindowWidth;
         int windowHeight = Console.WindowHeight;
