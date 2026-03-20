@@ -8,7 +8,7 @@ namespace A3___Snake___Angabe;
 internal class Score
 {
     #region Properties
-    private string name;
+    private string name = string.Empty;
 
     public string Name
     {
