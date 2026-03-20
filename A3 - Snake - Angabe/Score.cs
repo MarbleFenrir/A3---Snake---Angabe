@@ -8,7 +8,7 @@ namespace A3___Snake___Angabe;
 internal class Score
 {
     #region Properties
-    private string name;
+    private string name = string.Empty;
 
     public string Name
     {
@@ -58,7 +58,7 @@ internal class Score
         return $"---;------------;--.--.---- --:--:--";
     }
     /// <summary>
-    /// Parses a span of UTF-8 characters into a value.<br/><br/>Accepted Format: points;dd.MM.yyyy HH:mm:ss
+    /// Parses a span of UTF-8 characters into a value.<br/><br/>Accepted Format: points;name;dd.MM.yyyy HH:mm:ss
     /// </summary>
     /// <param name="s"></param>
     /// <returns></returns>
@@ -67,8 +67,8 @@ internal class Score
         if (s.IndexOf('-') == -1)
         {
             string[] splitS = s.Split(';');
-            ushort points = ushort.Parse(splitS[0]);
-            Score score = new Score(splitS[1], DateTime.ParseExact(splitS[2], format: "dd.MM.yyyy HH:mm:ss", CultureInfo.InvariantCulture), points);
+            byte points = byte.Parse(splitS[0]);
+            Score score = new Score(splitS[1], DateTime.ParseExact(splitS[2], format: "dd.MM.yyyy HH:mm:ss", CultureInfo.GetCultureInfo("de-AT")), points);
             return score;
         }
         else return new();

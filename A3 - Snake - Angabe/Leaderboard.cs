@@ -1,35 +1,30 @@
 ﻿namespace A3___Snake___Angabe;
 internal class Leaderboard
 {
-    private static string path = @"./highscore.txt";
+    private static string PATH = @"./highscore.txt";
     public Score[] scores = new Score[10];
     public Leaderboard()
     {
-        if (!File.Exists(path))
-        {
-            using (StreamWriter sw = new StreamWriter(path)) { }
-        }
-
+        if (!File.Exists(PATH))
+            File.Create(PATH).Dispose();
         int scoreCount = 0;
-
-        using (StreamReader sr = new StreamReader(path))
+        using (StreamReader sr = new(PATH))
         {
             while (!sr.EndOfStream && scoreCount < scores.Length)
             {
-                string line = sr.ReadLine();
-                if (line != null && line != "") 
-                {
-                    scores[scoreCount] = Score.Parse(line);
-                    scoreCount++;
-                }
+                string? line = sr.ReadLine();
+                if (line is null)
+                    break;
+                scores[scoreCount] = Score.Parse(line);
+                scoreCount++;
             }
         }
-
         for (int i = scoreCount; i < scores.Length; i++)
         {
             scores[i] = new Score();
         }
     }
+
     /// <summary>
     /// Adds a score to the appropriate place in the leaderboard
     /// </summary>
@@ -51,17 +46,7 @@ internal class Leaderboard
             }
         }
 
-        Save();
-    }
-    private void Save()
-    {
-        using (StreamWriter sw = new StreamWriter(path))
-        {
-            for (int i = 0; i < scores.Length; i++)
-            {
-                sw.WriteLine(scores[i].ToString());
-            }
-        }
+        WriteFile();
     }
     public override string ToString()
     {
@@ -71,5 +56,39 @@ internal class Leaderboard
             retval += scores[i].ToString() + '\n';
         }
         return retval;
+    }
+    public void WriteFile()
+    {
+        try
+        {
+            string? directory = Path.GetDirectoryName(PATH);
+            if (!string.IsNullOrEmpty(directory) && !Directory.Exists(directory))
+            {
+                Directory.CreateDirectory(directory);
+            }
+
+            using (StreamWriter writer = new StreamWriter(PATH))
+            {
+                writer.Write(this.ToString());
+            }
+
+            Console.WriteLine($"Successfully wrote to file: {PATH}");
+        }
+        catch (UnauthorizedAccessException)
+        {
+            Console.WriteLine($"Access denied to file: {PATH}");
+        }
+        catch (DirectoryNotFoundException)
+        {
+            Console.WriteLine($"Directory not found for path: {PATH}");
+        }
+        catch (PathTooLongException)
+        {
+            Console.WriteLine($"The file path is too long: {PATH}");
+        }
+        catch (IOException ioEx)
+        {
+            Console.WriteLine($"I/O error occurred while writing to file: {ioEx.Message}");
+        }
     }
 }

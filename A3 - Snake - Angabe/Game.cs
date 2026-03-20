@@ -15,6 +15,7 @@ internal class Game
     {
         rand = new(seed);
     }
+    #region Properties
     const int WIDTH = 40;
     const int HEIGHT = 20;
 
@@ -31,7 +32,7 @@ internal class Game
     private int foodY;
 
     private bool gameOver;
-
+    #endregion Properties
     /// <summary>
     /// Starts the game
     /// </summary>
@@ -58,6 +59,7 @@ internal class Game
                     Console.ReadKey();
                     break;
                 case 2:
+                    lb.WriteFile();
                     return false;
 
             }
@@ -81,9 +83,6 @@ internal class Game
         lb.Add(new(kb.Run("Please enter your name: "), score));
         Console.WriteLine(lb);
     }
-    /// <summary>
-    /// Initializes the snake 
-    /// </summary>
     private void InitSnake()
     {
         int startX = WIDTH / 2;
@@ -139,7 +138,7 @@ internal class Game
     /// <summary>
     /// Checks if the snake collides with the wall or itself.
     /// </summary>
-    bool CheckCollision()
+    private bool CheckCollision()
     {
         if (snakeX[0] <= 0 || snakeX[0] >= WIDTH - 1 || snakeY[0] <= 0 || snakeY[0] >= HEIGHT - 1)
         {
@@ -157,20 +156,20 @@ internal class Game
     /// <summary>
     /// If the head of the snake eats the food it makes a sound
     /// </summary>
-    void CheckFood()
+    private void CheckFood()
     {
         if (snakeX[0] == foodX && snakeY[0] == foodY)
         {
-            Console.Beep(); //Wollen wir ein bestimmtes Beep ton?
-            score++;              //score++; fehlt
-            GrowSnake();
+            Console.Beep();
+            score++;
+            ExpandSnakeArray();
             GenerateFood();
         }
     }
     /// <summary>
     /// The size of the array gets expanded
     /// </summary>
-    void GrowSnake()
+    private void ExpandSnakeArray()
     {
         if (length == snakeX.Length)
         {
@@ -192,7 +191,7 @@ internal class Game
     /// <summary>
     /// Generates a random spawnpoint for food and also checks if food isn't spawned on the snake
     /// </summary>
-    void GenerateFood()
+    private void GenerateFood()
     {
         bool valid;
         int tempX, tempY;
@@ -216,7 +215,7 @@ internal class Game
     /// <summary>
     /// Draws the map
     /// </summary>
-    void Draw()
+    private void Draw()
     {
         Console.SetCursorPosition(0, 0);
         Console.WriteLine("Punkte: " + score);
@@ -251,15 +250,14 @@ internal class Game
             Console.WriteLine();
         }
         
-        bool IsSnakeBody(int x, int y)
+    }
+    private bool IsSnakeBody(int x, int y)
+    {
+        for (int i = 1; i < length; i++)
         {
-            for (int i = 1; i < length; i++)
-            {
-                if (snakeX[i] == x && snakeY[i] == y)
-                    return true;
-            }
-            return false;
+            if (snakeX[i] == x && snakeY[i] == y)
+                return true;
         }
-        //Endgame fehlt
+        return false;
     }
 }

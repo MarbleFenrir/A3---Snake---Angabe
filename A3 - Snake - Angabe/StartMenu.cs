@@ -60,6 +60,7 @@ internal class StartMenu
             for (int i = 0; i < title.Length; i++)
                 Game.WriteCenteredText(title[i], i + Console.WindowHeight / 7);
         }
+        else Game.WriteCenteredText("SNAKE", 1);
 
         int windowWidth = Console.WindowWidth;
         int windowHeight = Console.WindowHeight;
