@@ -1,4 +1,4 @@
-﻿using static A3___Snake___Angabe.Directions;
+using static A3___Snake___Angabe.Directions;
 
 namespace A3___Snake___Angabe;
 
